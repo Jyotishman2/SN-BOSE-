@@ -1,4 +1,4 @@
-## 🍑
+
 # Power Demand Prediction & Anomaly Detection System
 
 A clean, simple full-stack web application for electricity demand forecasting and real-time anomaly detection using machine learning. No Docker, no bloat - just pure Python & React.
