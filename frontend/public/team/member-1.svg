@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Team member 1 profile photo placeholder">
+  <rect width="160" height="160" fill="#0f766e"/>
+  <circle cx="80" cy="62" r="33" fill="#ccfbf1"/>
+  <path d="M28 146c7-33 27-51 52-51s45 18 52 51" fill="#14b8a6"/>
+  <circle cx="68" cy="61" r="4" fill="#0f172a"/>
+  <circle cx="92" cy="61" r="4" fill="#0f172a"/>
+  <path d="M68 78c8 7 16 7 24 0" fill="none" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+  <path d="M46 51c11-27 54-34 76-3-28-1-46-8-76 3z" fill="#134e4a"/>
+</svg>

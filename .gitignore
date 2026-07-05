@@ -1,0 +1,61 @@
+# Dependencies
+frontend/node_modules/
+backend/.venv/
+backend/.venv*/
+.venv/
+.venv*/
+
+# Frontend build output
+frontend/.next/
+frontend/out/
+frontend/dist/
+frontend/build/
+frontend/coverage/
+frontend/.turbo/
+frontend/tsconfig.tsbuildinfo
+
+# Python caches and test output
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environment files
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+backend/.env
+backend/.env.*
+
+# Generated model artifacts
+backend/app/models/*.pkl
+!backend/app/models/README.md
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Logs and runtime files
+*.log
+logs/
+*.pid
+*.seed
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local Codex/agent workspace metadata
+.agents/
+.codex/
