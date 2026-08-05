@@ -7,7 +7,9 @@ export const api = axios.create({
 });
 
 export type ManualForecastPayload = {
-  datetime: string;
+  horizon?: number;
+  region?: string;
+  datetime?: string;
   temp_ne: number;
   humidity_ne: number;
   feels_like_ne: number;
@@ -18,7 +20,6 @@ export type ManualForecastPayload = {
   lag_48h?: number;
   lag_168h?: number;
   lag_336h?: number;
-  horizon_hours?: number;
 };
 
 export async function createForecast(payload: ManualForecastPayload) {

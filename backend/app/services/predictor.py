@@ -109,17 +109,17 @@ class DemandPredictor:
 
     def predict_manual(self, payload: ForecastRequest) -> ForecastResponse:
         history = self._history_for_payload(payload)
-        start_time = self._normalize_timestamp(pd.Timestamp(payload.datetime))
+        start_time = self._resolve_start_time(payload)
         weather = ManualWeather(
             datetime=start_time,
-            temp_ne=payload.temp_ne,
-            humidity_ne=payload.humidity_ne,
-            feels_like_ne=payload.feels_like_ne,
-            is_holiday=payload.is_holiday,
+            temp_ne=float(payload.temp_ne),
+            humidity_ne=float(payload.humidity_ne),
+            feels_like_ne=float(payload.feels_like_ne),
+            is_holiday=int(payload.is_holiday or 0),
         )
         points: list[ForecastPoint] = []
         running_history = list(history)
-        for step in range(payload.horizon_hours):
+        for step in range(payload.horizon):
             step_weather = ManualWeather(
                 datetime=start_time + pd.Timedelta(hours=step),
                 temp_ne=weather.temp_ne,
@@ -140,10 +140,21 @@ class DemandPredictor:
                     confidence_high=round(prediction + 1.96 * self.residual_std, 2) if self.residual_std else None,
                 )
             )
-        first = points[0]
+        summary = {
+            "next_hour": round(float(points[0].predicted_demand_mw), 2) if points else 0.0,
+            "peak": round(float(max(point.predicted_demand_mw for point in points)), 2) if points else 0.0,
+            "minimum": round(float(min(point.predicted_demand_mw for point in points)), 2) if points else 0.0,
+            "average": round(float(np.mean([point.predicted_demand_mw for point in points])), 2) if points else 0.0,
+        }
+        last_history = self._recent_history_frame(start_time)
         return ForecastResponse(
-            predicted_demand_mw=first.predicted_demand_mw,
-            is_anomaly=first.is_anomaly,
+            forecast_start=start_time.isoformat(),
+            horizon=payload.horizon,
+            predictions=points,
+            summary=summary,
+            history=last_history,
+            predicted_demand_mw=points[0].predicted_demand_mw,
+            is_anomaly=points[0].is_anomaly,
             confidence={"method": "residual_std_95_interval", "std": round(self.residual_std, 3)} if self.residual_std else None,
             forecast=points,
         )
@@ -217,7 +228,23 @@ class DemandPredictor:
         lag_values = [payload.lag_1h, payload.lag_24h, payload.lag_48h, payload.lag_168h, payload.lag_336h]
         if all(value is not None for value in lag_values):
             return lag_history_from_fields(lag_values)
-        return self._default_history(self._normalize_timestamp(pd.Timestamp(payload.datetime)))
+        return self._default_history(self._resolve_start_time(payload))
+
+    def _resolve_start_time(self, payload: ForecastRequest) -> pd.Timestamp:
+        if payload.datetime is not None:
+            return self._normalize_timestamp(pd.Timestamp(payload.datetime))
+        if self.source_frame is None:
+            raise ValueError("Historical demand dataset is required to identify the latest valid forecast start.")
+        return self._normalize_timestamp(self.source_frame["datetime"].max())
+
+    def _recent_history_frame(self, forecast_start: pd.Timestamp) -> list[dict]:
+        if self.source_frame is None:
+            return []
+        frame = self.source_frame[self.source_frame["datetime"] < forecast_start].tail(24)
+        return [
+            {"datetime": str(row["datetime"].isoformat()), "actual_demand_mw": round(float(row[TARGET]), 2)}
+            for _, row in frame.iterrows()
+        ]
 
     def _default_history(self, forecast_start: pd.Timestamp) -> list[float]:
         # Try SQLite first
@@ -226,7 +253,7 @@ class DemandPredictor:
             conn = sqlite3.connect(db_path)
             cur = conn.cursor()
             cur.execute(
-                "SELECT demand FROM demand_history WHERE datetime < ? ORDER BY datetime DESC LIMIT 336",
+                f'SELECT "{TARGET}" FROM demand_history WHERE datetime < ? ORDER BY datetime DESC LIMIT 336',
                 (forecast_start.strftime('%Y-%m-%d %H:%M:%S'),)
             )
             rows = [r[0] for r in cur.fetchall()]

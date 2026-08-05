@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: sn-bose-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATA_PATH
+        value: ../hourlyLoadData_NE_weather_with_holiday.csv 
+      - key: PYTHON_VERSION
+        value: 3.10.0
+    disk:
+      name: models
+      mountPath: /opt/render/project/src/backend/app/models
+      sizeGB: 1

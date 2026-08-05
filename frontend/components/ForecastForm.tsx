@@ -8,7 +8,7 @@ import { createForecast, getCurrentWeather } from "@/lib/api";
 import type { ForecastResponse } from "@/types";
 
 type FormValues = {
-  datetime: string;
+  horizon: string;
   region: string;
   temp_ne: number;
   humidity_ne: number;
@@ -22,7 +22,7 @@ export default function ForecastForm({ onResult }: { onResult: (result: Forecast
   const [toast, setToast] = useState("");
   const { register, handleSubmit, getValues, setValue } = useForm<FormValues>({
     defaultValues: {
-      datetime: new Date().toISOString().slice(0, 16),
+      horizon: "24",
       region: "guwahati",
       temp_ne: 22,
       humidity_ne: 72,
@@ -53,15 +53,15 @@ export default function ForecastForm({ onResult }: { onResult: (result: Forecast
     setToast("");
     try {
       const result = await createForecast({
-        datetime: new Date(values.datetime).toISOString(),
+        horizon: Number(values.horizon),
+        region: values.region,
         temp_ne: values.temp_ne,
         humidity_ne: values.humidity_ne,
         feels_like_ne: values.feels_like_ne,
         is_holiday: values.is_holiday ? 1 : 0,
-        horizon_hours: 24,
       });
       onResult(result);
-      setToast("Forecast generated with lag features from the dataset.");
+      setToast("Short-term forecast generated from the current demand history.");
     } catch (error) {
       const detail = axios.isAxiosError(error) ? error.response?.data?.detail : undefined;
       setToast(detail ? `Forecast failed: ${detail}` : "Forecast failed. Check that the backend is running.");
@@ -75,7 +75,15 @@ export default function ForecastForm({ onResult }: { onResult: (result: Forecast
   return (
     <form onSubmit={handleSubmit(submit)} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="text-sm text-slate-700">Datetime<input type="datetime-local" className={inputClass} {...register("datetime", { required: true })} /></label>
+        <label className="text-sm text-slate-700">
+          Forecast Horizon
+          <select className={inputClass} {...register("horizon")}>
+            <option value="1">Next 1 Hour</option>
+            <option value="6">Next 6 Hours</option>
+            <option value="12">Next 12 Hours</option>
+            <option value="24">Next 24 Hours</option>
+          </select>
+        </label>
         <label className="text-sm text-slate-700">
           Region
           <select className={inputClass} {...register("region")}>
@@ -92,11 +100,11 @@ export default function ForecastForm({ onResult }: { onResult: (result: Forecast
         </label>
         <label className="text-sm text-slate-700">Temperature<input type="number" step="0.1" className={inputClass} {...register("temp_ne", { valueAsNumber: true })} /></label>
         <label className="text-sm text-slate-700">Humidity<input type="number" step="0.1" className={inputClass} {...register("humidity_ne", { valueAsNumber: true })} /></label>
-        <label className="text-sm text-slate-700">Feels like<input type="number" step="0.1" className={inputClass} {...register("feels_like_ne", { valueAsNumber: true })} /></label>
+        <label className="text-sm text-slate-700">Feels Like<input type="number" step="0.1" className={inputClass} {...register("feels_like_ne", { valueAsNumber: true })} /></label>
         <label className="flex items-center gap-3 pt-6 text-sm text-slate-700"><input type="checkbox" className="h-4 w-4 accent-teal-600" {...register("is_holiday")} /> Holiday</label>
       </div>
       <p className="mt-4 text-xs leading-5 text-slate-500">
-        Lag and rolling demand features are loaded automatically from the project dataset.
+        Weather and lag/rolling features are derived from the latest valid historical demand history for short-term forecasting.
       </p>
       <div className="mt-5 flex flex-wrap gap-3">
         <button type="button" disabled={weatherLoading} onClick={fillCurrentWeather} className="focus-ring inline-flex items-center gap-2 rounded-md border border-teal-200 bg-teal-50 px-4 py-2.5 text-sm font-semibold text-teal-700 hover:bg-teal-100 disabled:opacity-60">
@@ -105,7 +113,7 @@ export default function ForecastForm({ onResult }: { onResult: (result: Forecast
         </button>
         <button disabled={loading} className="focus-ring inline-flex items-center gap-2 rounded-md bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 disabled:opacity-60">
           {loading ? <Loader2 className="animate-spin" size={16} /> : <Sparkles size={16} />}
-          Predict
+          Generate Forecast
         </button>
       </div>
       {toast ? <p className="mt-3 text-sm text-slate-600">{toast}</p> : null}

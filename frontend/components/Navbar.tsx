@@ -18,7 +18,7 @@ export default function Navbar() {
           </motion.span>
           <div>
             <p className="text-sm font-semibold tracking-wide text-slate-900">NER Demand Predictor</p>
-            <p className="text-xs text-slate-500">North-Eastern Region Load Forecasting</p>
+            <p className="text-xs text-slate-500">Short-Term Electricity Demand Forecasting and Anomaly Detection for the North-Eastern Region of India</p>
           </div>
         </Link>
         <div className="hidden items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs text-emerald-700 sm:flex">

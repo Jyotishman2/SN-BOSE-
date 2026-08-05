@@ -11,7 +11,24 @@ class ForecastPoint(BaseModel):
     confidence_high: Optional[float] = None
 
 
+class ForecastHistoryPoint(BaseModel):
+    datetime: str
+    actual_demand_mw: float
+
+
+class ForecastSummary(BaseModel):
+    next_hour: float
+    peak: float
+    minimum: float
+    average: float
+
+
 class ForecastResponse(BaseModel):
+    forecast_start: str
+    horizon: int
+    predictions: List[ForecastPoint]
+    summary: ForecastSummary
+    history: List[ForecastHistoryPoint] = []
     predicted_demand_mw: float
     is_anomaly: bool
     confidence: Optional[dict] = None

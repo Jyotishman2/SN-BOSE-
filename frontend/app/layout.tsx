@@ -5,8 +5,8 @@ import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "NER Demand Forecasting",
-  description: "Electricity demand forecasting dashboard for North-Eastern Region of India.",
+  title: "Short-Term Electricity Demand Forecasting and Anomaly Detection for the North-Eastern Region of India",
+  description: "Short-Term Electricity Demand Forecasting and Anomaly Detection for the North-Eastern Region of India.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

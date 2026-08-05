@@ -15,9 +15,9 @@ export default function HeroSection() {
         className="relative flex min-h-[520px] max-w-3xl flex-col justify-end px-6 pb-10 sm:px-10"
       >
         <p className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-teal-700">North-Eastern Region</p>
-        <h1 className="text-4xl font-semibold text-slate-900 sm:text-6xl">Electricity Demand Forecasting</h1>
+        <h1 className="text-4xl font-semibold text-slate-900 sm:text-6xl">Short-Term Electricity Demand Forecasting and Anomaly Detection</h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700">
-          A production interface for next-hour load forecasts, batch CSV scoring, anomaly review, and model performance analytics.
+          A production interface for short-term demand forecasts, batch CSV scoring, anomaly review, and model performance analytics.
         </p>
         <div className="mt-7 flex flex-wrap gap-3">
           <Link href="/forecast" className="focus-ring inline-flex items-center gap-2 rounded-md bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white">

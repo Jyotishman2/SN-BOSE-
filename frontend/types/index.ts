@@ -6,7 +6,24 @@ export type ForecastPoint = {
   confidence_high?: number | null;
 };
 
+export type ForecastHistoryPoint = {
+  datetime: string;
+  actual_demand_mw: number;
+};
+
+export type ForecastSummary = {
+  next_hour: number;
+  peak: number;
+  minimum: number;
+  average: number;
+};
+
 export type ForecastResponse = {
+  forecast_start: string;
+  horizon: number;
+  predictions: ForecastPoint[];
+  summary: ForecastSummary;
+  history: ForecastHistoryPoint[];
   predicted_demand_mw: number;
   is_anomaly: boolean;
   confidence?: { method: string; std: number } | null;

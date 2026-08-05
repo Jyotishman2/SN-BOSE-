@@ -65,11 +65,9 @@ export default function DescriptionPage() {
         <div className="grid gap-6 p-6 lg:grid-cols-[1.25fr_0.75fr] lg:p-7">
           <div>
             <p className="text-sm uppercase tracking-[0.18em] text-teal-600">Project Description</p>
-            <h1 className="mt-2 max-w-3xl text-3xl font-semibold text-slate-900">NER Electricity Demand Forecasting</h1>
+            <h1 className="mt-2 max-w-3xl text-3xl font-semibold text-slate-900">Short-Term Electricity Demand Forecasting and Anomaly Detection for the North-Eastern Region of India</h1>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              This project is a full-stack electricity demand forecasting system for the North-Eastern Region. It connects a FastAPI
-              prediction service with a Next.js dashboard so demand trends, short-term forecasts, CSV uploads, and anomaly reviews
-              are available in one operational workspace.
+              This project is a full-stack short-term electricity demand forecasting and anomaly detection system for the North-Eastern Region of India. It connects a FastAPI prediction service with a Next.js dashboard so demand trends, short-term forecasts, CSV uploads, and anomaly reviews are available in one operational workspace.
             </p>
           </div>
           <div className="rounded-lg border border-teal-200 bg-teal-50 p-5">

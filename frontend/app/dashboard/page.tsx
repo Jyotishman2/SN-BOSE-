@@ -5,6 +5,7 @@ import DemandComparisonCard from "@/components/DemandComparisonCard";
 import MetricCard from "@/components/MetricCard";
 import StateDemandMap from "@/components/StateDemandMap";
 import WeatherImpactCard from "@/components/WeatherImpactCard";
+import Forecast24Chart from "@/components/24HourForecastChart";
 
 const trend = Array.from({ length: 24 }, (_, hour) => ({
   time: `${hour.toString().padStart(2, "0")}:00`,
@@ -26,6 +27,8 @@ export default function DashboardPage() {
         <MetricCard label="Peak Demand" value={`${peak} MW`} sub="Today" tone="teal" />
       </div>
       <DemandChart data={trend} />
+      {/* New 24‑hour forecast chart with historical & forecast */}
+      <Forecast24Chart />
       <StateDemandMap />
     </div>
   );
