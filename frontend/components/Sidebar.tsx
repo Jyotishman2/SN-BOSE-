@@ -17,7 +17,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   return (
     <aside className="hidden w-60 shrink-0 lg:block">
-      <nav className="glass sticky top-24 rounded-lg p-3">
+      <nav className="sticky top-24 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
         {items.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href;
@@ -26,7 +26,7 @@ export default function Sidebar() {
               key={`${item.href}-${item.label}`}
               href={item.href}
               className={`mb-1 flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition ${
-                active ? "bg-teal-300 text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"
+                active ? "bg-teal-500 text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
               }`}
             >
               <Icon size={17} />

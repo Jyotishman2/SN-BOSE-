@@ -70,13 +70,13 @@ export default function ForecastForm({ onResult }: { onResult: (result: Forecast
     }
   }
 
-  const inputClass = "focus-ring w-full rounded-md border border-white/10 bg-slate-950/60 px-3 py-2 text-sm text-white";
+  const inputClass = "focus-ring w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900";
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="glass rounded-lg p-5">
+    <form onSubmit={handleSubmit(submit)} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="text-sm text-slate-300">Datetime<input type="datetime-local" className={inputClass} {...register("datetime", { required: true })} /></label>
-        <label className="text-sm text-slate-300">
+        <label className="text-sm text-slate-700">Datetime<input type="datetime-local" className={inputClass} {...register("datetime", { required: true })} /></label>
+        <label className="text-sm text-slate-700">
           Region
           <select className={inputClass} {...register("region")}>
             <option value="guwahati">Guwahati</option>
@@ -90,25 +90,25 @@ export default function ForecastForm({ onResult }: { onResult: (result: Forecast
             <option value="gangtok">Gangtok</option>
           </select>
         </label>
-        <label className="text-sm text-slate-300">Temperature<input type="number" step="0.1" className={inputClass} {...register("temp_ne", { valueAsNumber: true })} /></label>
-        <label className="text-sm text-slate-300">Humidity<input type="number" step="0.1" className={inputClass} {...register("humidity_ne", { valueAsNumber: true })} /></label>
-        <label className="text-sm text-slate-300">Feels like<input type="number" step="0.1" className={inputClass} {...register("feels_like_ne", { valueAsNumber: true })} /></label>
-        <label className="flex items-center gap-3 pt-6 text-sm text-slate-300"><input type="checkbox" className="h-4 w-4 accent-teal-300" {...register("is_holiday")} /> Holiday</label>
+        <label className="text-sm text-slate-700">Temperature<input type="number" step="0.1" className={inputClass} {...register("temp_ne", { valueAsNumber: true })} /></label>
+        <label className="text-sm text-slate-700">Humidity<input type="number" step="0.1" className={inputClass} {...register("humidity_ne", { valueAsNumber: true })} /></label>
+        <label className="text-sm text-slate-700">Feels like<input type="number" step="0.1" className={inputClass} {...register("feels_like_ne", { valueAsNumber: true })} /></label>
+        <label className="flex items-center gap-3 pt-6 text-sm text-slate-700"><input type="checkbox" className="h-4 w-4 accent-teal-600" {...register("is_holiday")} /> Holiday</label>
       </div>
-      <p className="mt-4 text-xs leading-5 text-slate-400">
+      <p className="mt-4 text-xs leading-5 text-slate-500">
         Lag and rolling demand features are loaded automatically from the project dataset.
       </p>
       <div className="mt-5 flex flex-wrap gap-3">
-        <button type="button" disabled={weatherLoading} onClick={fillCurrentWeather} className="focus-ring inline-flex items-center gap-2 rounded-md border border-teal-300/40 px-4 py-2.5 text-sm font-semibold text-teal-100 disabled:opacity-60">
+        <button type="button" disabled={weatherLoading} onClick={fillCurrentWeather} className="focus-ring inline-flex items-center gap-2 rounded-md border border-teal-200 bg-teal-50 px-4 py-2.5 text-sm font-semibold text-teal-700 hover:bg-teal-100 disabled:opacity-60">
           {weatherLoading ? <Loader2 className="animate-spin" size={16} /> : <CloudSun size={16} />}
           Use Live Weather
         </button>
-        <button disabled={loading} className="focus-ring inline-flex items-center gap-2 rounded-md bg-teal-300 px-4 py-2.5 text-sm font-semibold text-slate-950 disabled:opacity-60">
+        <button disabled={loading} className="focus-ring inline-flex items-center gap-2 rounded-md bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 disabled:opacity-60">
           {loading ? <Loader2 className="animate-spin" size={16} /> : <Sparkles size={16} />}
           Predict
         </button>
       </div>
-      {toast ? <p className="mt-3 text-sm text-slate-300">{toast}</p> : null}
+      {toast ? <p className="mt-3 text-sm text-slate-600">{toast}</p> : null}
     </form>
   );
 }

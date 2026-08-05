@@ -4,8 +4,8 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 
 export default function DemandChart({ data }: { data: Array<Record<string, string | number>> }) {
   return (
-    <div className="glass h-[330px] rounded-lg p-4">
-      <p className="mb-3 text-sm font-medium text-white">Demand Trend</p>
+    <div className="h-[330px] rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+      <p className="mb-3 text-sm font-medium text-slate-900">Demand Trend</p>
       <ResponsiveContainer width="100%" height="88%">
         <AreaChart data={data}>
           <defs>
@@ -14,10 +14,10 @@ export default function DemandChart({ data }: { data: Array<Record<string, strin
               <stop offset="95%" stopColor="#2dd4bf" stopOpacity={0.02} />
             </linearGradient>
           </defs>
-          <CartesianGrid stroke="rgba(148,163,184,0.16)" vertical={false} />
-          <XAxis dataKey="time" stroke="#94a3b8" tickLine={false} axisLine={false} />
-          <YAxis stroke="#94a3b8" tickLine={false} axisLine={false} width={48} />
-          <Tooltip contentStyle={{ background: "#0f172a", border: "1px solid rgba(148,163,184,0.28)", borderRadius: 8 }} />
+          <CartesianGrid stroke="#f1f5f9" vertical={false} />
+          <XAxis dataKey="time" stroke="#64748b" tickLine={false} axisLine={false} />
+          <YAxis stroke="#64748b" tickLine={false} axisLine={false} width={48} />
+          <Tooltip contentStyle={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} />
           <Area type="monotone" dataKey="demand" stroke="#2dd4bf" fill="url(#demand)" strokeWidth={2} />
         </AreaChart>
       </ResponsiveContainer>

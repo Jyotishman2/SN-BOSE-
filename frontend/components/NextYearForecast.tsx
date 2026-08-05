@@ -37,12 +37,12 @@ export default function NextYearForecast() {
 
   return (
     <section className="space-y-4">
-      <div className="glass rounded-lg p-5">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-teal-200">Long Range</p>
-            <h2 className="mt-2 text-2xl font-semibold text-white">Next Year Prediction</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-300">
+            <p className="text-sm uppercase tracking-[0.18em] text-teal-600">Long Range</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-900">Next Year Prediction</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
               Generates representative model predictions for each month of the next year and summarizes monthly average demand.
             </p>
           </div>
@@ -50,25 +50,25 @@ export default function NextYearForecast() {
             type="button"
             disabled={loading}
             onClick={loadForecast}
-            className="focus-ring inline-flex items-center justify-center gap-2 rounded-md bg-teal-300 px-4 py-2.5 text-sm font-semibold text-slate-950 disabled:opacity-60"
+            className="focus-ring inline-flex items-center justify-center gap-2 rounded-md bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700 disabled:opacity-60"
           >
             {loading ? <Loader2 className="animate-spin" size={16} /> : <CalendarRange size={16} />}
             Generate Year
           </button>
         </div>
-        {message ? <p className="mt-3 text-sm text-slate-300">{message}</p> : null}
+        {message ? <p className="mt-3 text-sm text-slate-600">{message}</p> : null}
       </div>
 
       {forecast ? (
         <div className="grid gap-5 xl:grid-cols-[1fr_260px]">
           <DemandChart data={chartData} />
-          <div className="glass rounded-lg p-5">
-            <p className="text-sm text-slate-400">Forecast Year</p>
-            <p className="mt-2 text-3xl font-semibold text-white">{forecast.year}</p>
-            <p className="mt-5 text-sm text-slate-400">Peak Month</p>
-            <p className="mt-2 text-xl font-semibold text-white">{peak?.month ?? "--"}</p>
-            <p className="mt-1 text-sm text-slate-300">{peak ? `${peak.peak_demand_mw.toLocaleString()} MW peak` : "--"}</p>
-            <p className="mt-5 text-xs leading-5 text-slate-400">{forecast.source}</p>
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-sm text-slate-500">Forecast Year</p>
+            <p className="mt-2 text-3xl font-semibold text-slate-900">{forecast.year}</p>
+            <p className="mt-5 text-sm text-slate-500">Peak Month</p>
+            <p className="mt-2 text-xl font-semibold text-slate-900">{peak?.month ?? "--"}</p>
+            <p className="mt-1 text-sm text-slate-600">{peak ? `${peak.peak_demand_mw.toLocaleString()} MW peak` : "--"}</p>
+            <p className="mt-5 text-xs leading-5 text-slate-500">{forecast.source}</p>
           </div>
         </div>
       ) : null}

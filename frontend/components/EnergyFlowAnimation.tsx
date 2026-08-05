@@ -14,22 +14,22 @@ const pulseDelays = [0, 0.65, 1.3, 1.95];
 
 export default function EnergyFlowAnimation() {
   return (
-    <section className="glass overflow-hidden rounded-lg p-5">
+    <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm uppercase tracking-[0.18em] text-teal-200">Live Energy Flow</p>
-          <h2 className="mt-2 text-2xl font-semibold text-white"> Grid Control Center</h2>
+          <p className="text-sm uppercase tracking-[0.18em] text-teal-600">Live Energy Flow</p>
+          <h2 className="mt-2 text-2xl font-semibold text-slate-900"> Grid Control Center</h2>
         </div>
-        <p className="text-sm font-medium text-slate-300">
+        <p className="text-sm font-medium text-slate-600">
            Power Generation {"\u2192"} Transmission {"\u2192"} Distribution {"\u2192"} Consumers
         </p>
       </div>
 
-      <div className="relative mt-6 overflow-hidden rounded-lg border border-slate-700/80 bg-slate-950/50 px-4 py-6">
-        <div className="absolute left-8 right-8 top-1/2 hidden h-1 -translate-y-1/2 rounded-full bg-slate-800 md:block" />
+      <div className="relative mt-6 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 px-4 py-6">
+        <div className="absolute left-8 right-8 top-1/2 hidden h-1 -translate-y-1/2 rounded-full bg-slate-200 md:block" />
         <div className="absolute left-8 right-8 top-1/2 hidden h-1 -translate-y-1/2 overflow-hidden rounded-full md:block">
           <motion.div
-            className="h-full w-1/3 rounded-full bg-gradient-to-r from-transparent via-teal-200 to-transparent"
+            className="h-full w-1/3 rounded-full bg-gradient-to-r from-transparent via-teal-400 to-transparent"
             animate={{ x: ["-120%", "320%"] }}
             transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
           />
@@ -40,15 +40,15 @@ export default function EnergyFlowAnimation() {
             const Icon = node.icon;
 
             return (
-              <div key={node.label} className="relative rounded-lg border border-white/10 bg-slate-950/70 p-4 text-center">
+              <div key={node.label} className="relative rounded-xl border border-slate-200 bg-white p-4 text-center shadow-sm">
                 <motion.div
-                  className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-teal-200/40 bg-teal-300/15 text-teal-100 shadow-[0_0_30px_rgba(45,212,191,0.28)]"
+                  className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-teal-200 bg-teal-50 text-teal-700 shadow-[0_0_20px_rgba(45,212,191,0.15)]"
                   animate={{ scale: [1, 1.08, 1], boxShadow: ["0 0 18px rgba(45,212,191,0.18)", "0 0 36px rgba(45,212,191,0.45)", "0 0 18px rgba(45,212,191,0.18)"] }}
                   transition={{ duration: 1.8, repeat: Infinity, delay: index * 0.25 }}
                 >
                   <Icon size={22} />
                 </motion.div>
-                <p className="mt-3 text-sm font-semibold text-white">{node.label}</p>
+                <p className="mt-3 text-sm font-semibold text-slate-900">{node.label}</p>
                 <p className="mt-1 text-xs text-slate-500">{index === 0 ? "Supply" : index === 3 ? "Load" : "Grid link"}</p>
               </div>
             );

@@ -35,16 +35,16 @@ export default function CSVUploader({ onUpload }: { onUpload: (file: File) => Pr
   }
 
   return (
-    <div className="glass rounded-lg p-5">
-      <label className="flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-slate-500/60 bg-slate-950/40 p-6 text-center transition hover:border-teal-300/80">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <label className="flex min-h-44 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-6 text-center transition hover:border-teal-500">
         <input type="file" accept=".csv" className="hidden" onChange={(event) => handleFile(event.target.files?.[0])} />
-        {loading ? <Loader2 className="animate-spin text-teal-200" size={34} /> : <UploadCloud className="text-teal-200" size={34} />}
-        <span className="mt-3 text-sm font-medium text-white">Upload CSV</span>
-        <span className="mt-1 text-xs text-slate-400">Requires datetime, demand, weather, and holiday columns</span>
+        {loading ? <Loader2 className="animate-spin text-teal-600" size={34} /> : <UploadCloud className="text-teal-600" size={34} />}
+        <span className="mt-3 text-sm font-medium text-slate-900">Upload CSV</span>
+        <span className="mt-1 text-xs text-slate-500">Requires datetime, demand, weather, and holiday columns</span>
       </label>
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-slate-300">{message || "No file processed yet."}</p>
-        <button onClick={downloadReport} disabled={!rows.length} className="focus-ring inline-flex items-center gap-2 rounded-md border border-white/15 px-3 py-2 text-sm text-white disabled:opacity-40">
+        <p className="text-sm text-slate-600">{message || "No file processed yet."}</p>
+        <button onClick={downloadReport} disabled={!rows.length} className="focus-ring inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-40">
           <Download size={15} />
           Download report
         </button>

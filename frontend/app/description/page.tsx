@@ -61,29 +61,29 @@ const teamMembers = [
 export default function DescriptionPage() {
   return (
     <div className="space-y-5">
-      <section className="glass overflow-hidden rounded-lg">
+      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="grid gap-6 p-6 lg:grid-cols-[1.25fr_0.75fr] lg:p-7">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-teal-200">Project Description</p>
-            <h1 className="mt-2 max-w-3xl text-3xl font-semibold text-white">NER Electricity Demand Forecasting</h1>
-            <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
+            <p className="text-sm uppercase tracking-[0.18em] text-teal-600">Project Description</p>
+            <h1 className="mt-2 max-w-3xl text-3xl font-semibold text-slate-900">NER Electricity Demand Forecasting</h1>
+            <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
               This project is a full-stack electricity demand forecasting system for the North-Eastern Region. It connects a FastAPI
               prediction service with a Next.js dashboard so demand trends, short-term forecasts, CSV uploads, and anomaly reviews
               are available in one operational workspace.
             </p>
           </div>
-          <div className="rounded-lg border border-teal-300/20 bg-teal-300/10 p-5">
+          <div className="rounded-lg border border-teal-200 bg-teal-50 p-5">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-teal-300 text-slate-950">
+              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-teal-600 text-slate-900">
                 <Users size={22} />
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Team Size</p>
-                <p className="text-2xl font-semibold text-white">6 Members</p>
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Team Size</p>
+                <p className="text-2xl font-semibold text-slate-900">6 Members</p>
               </div>
             </div>
-            <p className="mt-4 text-sm leading-6 text-slate-300">
-              Guided by <span className="font-medium text-white">Dr. Nabanita Adhikary</span>, the team covers data preparation, model training,
+            <p className="mt-4 text-sm leading-6 text-slate-600">
+              Guided by <span className="font-medium text-slate-900">Dr. Nabanita Adhikary</span>, the team covers data preparation, model training,
               backend APIs, frontend design, testing, and deployment.
             </p>
           </div>
@@ -94,32 +94,32 @@ export default function DescriptionPage() {
         {highlights.map((item) => {
           const Icon = item.icon;
           return (
-            <article key={item.title} className="glass rounded-lg p-5">
-              <Icon className="text-teal-200" size={24} />
-              <h2 className="mt-4 text-lg font-semibold text-white">{item.title}</h2>
-              <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
+            <article key={item.title} className="rounded-xl border border-slate-200 bg-white shadow-sm p-5">
+              <Icon className="text-teal-600" size={24} />
+              <h2 className="mt-4 text-lg font-semibold text-slate-900">{item.title}</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
             </article>
           );
         })}
       </section>
 
-      <section className="glass rounded-lg p-5">
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm p-5">
         <div>
-          <p className="text-sm uppercase tracking-[0.18em] text-teal-200">Tech Stack</p>
-          <h2 className="mt-2 text-2xl font-semibold text-white">Technologies Used</h2>
+          <p className="text-sm uppercase tracking-[0.18em] text-teal-600">Tech Stack</p>
+          <h2 className="mt-2 text-2xl font-semibold text-slate-900">Technologies Used</h2>
         </div>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {techStacks.map((stack) => {
             const Icon = stack.icon;
             return (
-              <article key={stack.title} className="rounded-lg border border-slate-700/80 bg-slate-950/40 p-4">
+              <article key={stack.title} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center gap-3">
-                  <Icon className="text-amber-200" size={20} />
-                  <h3 className="text-base font-semibold text-white">{stack.title}</h3>
+                  <Icon className="text-amber-600" size={20} />
+                  <h3 className="text-base font-semibold text-slate-900">{stack.title}</h3>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {stack.items.map((item) => (
-                    <span key={item} className="rounded-md border border-teal-300/20 bg-teal-300/10 px-3 py-1 text-xs font-medium text-teal-100">
+                    <span key={item} className="rounded-md border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-medium text-teal-700">
                       {item}
                     </span>
                   ))}
@@ -130,60 +130,61 @@ export default function DescriptionPage() {
         </div>
       </section>
 
-      <section className="glass rounded-lg p-5">
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm p-5">
         <div>
-          <p className="text-sm uppercase tracking-[0.18em] text-teal-200">Model Details</p>
-          <h2 className="mt-2 text-2xl font-semibold text-white">Forecasting Model</h2>
+          <p className="text-sm uppercase tracking-[0.18em] text-teal-600">Model Details</p>
+          <h2 className="mt-2 text-2xl font-semibold text-slate-900">Forecasting Model</h2>
         </div>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {modelDetails.map((detail) => {
             const Icon = detail.icon;
             return (
-              <div key={detail.label} className="rounded-lg border border-slate-700/80 bg-slate-950/40 p-4">
+              <div key={detail.label} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center gap-3">
-                  <Icon className="text-amber-200" size={20} />
-                  <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{detail.label}</p>
+                  <Icon className="text-amber-600" size={20} />
+                  <p className="text-xs uppercase tracking-[0.16em] text-slate-500">{detail.label}</p>
                 </div>
-                <p className="mt-3 text-lg font-semibold text-white">{detail.value}</p>
+                <p className="mt-3 text-lg font-semibold text-slate-900">{detail.value}</p>
               </div>
             );
           })}
         </div>
-        <p className="mt-5 text-sm leading-6 text-slate-300">
+        <p className="mt-5 text-sm leading-6 text-slate-600">
           The model uses notebook-matched feature engineering and a saved LightGBM artifact for production predictions. When the model
           artifact is missing, the backend can bootstrap training from the included regional demand dataset.
         </p>
       </section>
 
-      <section className="glass rounded-lg p-5">
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm p-5">
         <div>
-          <p className="text-sm uppercase tracking-[0.18em] text-teal-200">People</p>
-          <h2 className="mt-2 text-2xl font-semibold text-white">Team Members</h2>
+          <p className="text-sm uppercase tracking-[0.18em] text-teal-600">People</p>
+          <h2 className="mt-2 text-2xl font-semibold text-slate-900">Team Members</h2>
         </div>
         <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {teamMembers.map((member) => (
-            <article key={member.name} className="flex items-center gap-4 rounded-lg border border-slate-700/80 bg-slate-950/40 p-4">
+            <article key={member.name} className="flex items-center gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
               <img
                 src={member.photo}
                 alt={`${member.name} photo`}
-                className="h-16 w-16 shrink-0 rounded-lg border border-white/10 object-cover"
+                className="h-16 w-16 shrink-0 rounded-lg border border-slate-200 object-cover"
               />
               <div className="min-w-0">
-                <h3 className="truncate text-base font-semibold text-white">{member.name}</h3>
-                <p className="mt-1 text-sm text-slate-400">{member.role}</p>
+                <h3 className="truncate text-base font-semibold text-slate-900">{member.name}</h3>
+                <p className="mt-1 text-sm text-slate-500">{member.role}</p>
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="glass rounded-lg p-5">
-        <p className="text-sm uppercase tracking-[0.18em] text-teal-200">Mentor</p>
-        <h2 className="mt-2 text-2xl font-semibold text-white">Dr. Nabanita Adhikary</h2>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+      <section className="rounded-xl border border-slate-200 bg-white shadow-sm p-5">
+        <p className="text-sm uppercase tracking-[0.18em] text-teal-600">Mentor</p>
+        <h2 className="mt-2 text-2xl font-semibold text-slate-900">Dr. Nabanita Adhikary</h2>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
           Project mentor and guide for model direction, evaluation review, and final project presentation.
         </p>
       </section>
     </div>
   );
 }
+

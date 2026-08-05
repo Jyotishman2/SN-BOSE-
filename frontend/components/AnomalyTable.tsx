@@ -4,10 +4,10 @@ export default function AnomalyTable({ rows }: { rows: UploadPrediction[] }) {
  
   return (
     
-    <div className="glass overflow-hidden rounded-lg">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
       <div className="max-h-[460px] overflow-auto">
         <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className="sticky top-0 bg-slate-950/90 text-xs uppercase tracking-[0.14em] text-slate-400">
+          <thead className="sticky top-0 bg-slate-50 text-xs uppercase tracking-[0.14em] text-slate-500">
             <tr>
               <th className="px-4 py-3">Datetime</th>
               <th className="px-4 py-3">Actual</th>
@@ -18,7 +18,7 @@ export default function AnomalyTable({ rows }: { rows: UploadPrediction[] }) {
           </thead>
           <tbody>
             {rows.map((row, index) => (
-              <tr key={`${row.datetime}-${index}`} className={row.is_anomaly ? "bg-rose-500/10 text-rose-100" : "border-t border-white/10 text-slate-200"}>
+              <tr key={`${row.datetime}-${index}`} className={row.is_anomaly ? "bg-rose-50 text-rose-900" : "border-t border-slate-200 text-slate-700"}>
                 <td className="px-4 py-3">{row.datetime}</td>
                 <td className="px-4 py-3">{row.actual_demand_mw ?? "--"}</td>
                 <td className="px-4 py-3">{row.predicted_demand_mw ?? "--"}</td>

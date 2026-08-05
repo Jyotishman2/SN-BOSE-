@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import ForecastForm from "@/components/ForecastForm";
 import PredictionCard from "@/components/PredictionCard";
 import DemandChart from "@/components/DemandChart";
-import NextYearForecast from "@/components/NextYearForecast";
+
 import type { ForecastResponse } from "@/types";
 
 export default function ForecastPage() {
@@ -29,7 +29,7 @@ export default function ForecastPage() {
         <PredictionCard prediction={prediction} />
       </div>
       <DemandChart data={chartData.length ? chartData : Array.from({ length: 24 }, (_, hour) => ({ time: `${hour}:00`, demand: 0 }))} />
-      <NextYearForecast />
+
     </div>
   );
 }

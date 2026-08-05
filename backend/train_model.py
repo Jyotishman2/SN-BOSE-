@@ -6,15 +6,14 @@ from pathlib import Path
 import joblib
 import lightgbm as lgb
 import numpy as np
-import optuna
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import TimeSeriesSplit
+from sklearn.model_selection import RandomizedSearchCV, TimeSeriesSplit
 
 from app.services.preprocessing import TARGET, feature_columns, load_csv_frame
 
 
-def train(data_path: Path, model_path: Path, trials: int) -> None:
+def train(data_path: Path, model_path: Path, cv_splits: int) -> None:
     df = load_csv_frame(data_path)
     split_date = pd.Timestamp("2023-01-01")
     train_df = df[df["datetime"] < split_date].copy()
@@ -27,38 +26,36 @@ def train(data_path: Path, model_path: Path, trials: int) -> None:
     x_train, y_train = train_df[cols], train_df[TARGET]
     x_test, y_test = test_df[cols], test_df[TARGET]
 
-    def objective(trial: optuna.Trial) -> float:
-        params = {
-            "n_estimators": trial.suggest_int("n_estimators", 300, 2000, step=100),
-            "learning_rate": trial.suggest_float("learning_rate", 0.005, 0.2, log=True),
-            "max_depth": trial.suggest_int("max_depth", 4, 12),
-            "num_leaves": trial.suggest_int("num_leaves", 15, 255),
-            "min_child_samples": trial.suggest_int("min_child_samples", 5, 100),
-            "subsample": trial.suggest_float("subsample", 0.5, 1.0),
-            "colsample_bytree": trial.suggest_float("colsample_bytree", 0.5, 1.0),
-            "reg_alpha": trial.suggest_float("reg_alpha", 1e-3, 10, log=True),
-            "reg_lambda": trial.suggest_float("reg_lambda", 1e-3, 10, log=True),
-            "random_state": 42,
-            "n_jobs": -1,
-            "verbose": -1,
-        }
-        scores = []
-        for train_idx, val_idx in TimeSeriesSplit(n_splits=5).split(x_train):
-            model = lgb.LGBMRegressor(**params)
-            model.fit(
-                x_train.iloc[train_idx],
-                y_train.iloc[train_idx],
-                eval_set=[(x_train.iloc[val_idx], y_train.iloc[val_idx])],
-                callbacks=[lgb.early_stopping(50, verbose=False)],
-            )
-            scores.append(mean_absolute_error(y_train.iloc[val_idx], model.predict(x_train.iloc[val_idx])))
-        return float(np.mean(scores))
+    param_grid = {
+        "n_estimators": [300, 500],
+        "learning_rate": [0.01, 0.05],
+        "max_depth": [6, 10],
+        "num_leaves": [31, 127],
+        "min_child_samples": [10, 50],
+        "subsample": [0.7, 1.0],
+        "colsample_bytree": [0.7, 1.0],
+        "reg_alpha": [1e-2, 1.0],
+        "reg_lambda": [1e-2, 1.0],
+    }
 
-    study = optuna.create_study(direction="minimize")
-    study.optimize(objective, n_trials=trials, show_progress_bar=True)
+    cv = TimeSeriesSplit(n_splits=cv_splits)
+    search = RandomizedSearchCV(
+        estimator=lgb.LGBMRegressor(random_state=42, n_jobs=-1, verbose=-1),
+        param_distributions=param_grid,
+        n_iter=25,
+        scoring="neg_mean_absolute_error",
+        cv=cv,
+        n_jobs=-1,
+        verbose=2,
+        refit=True,
+        random_state=42,
+    )
+    search.fit(x_train, y_train)
 
-    params = study.best_params | {"random_state": 42, "n_jobs": -1, "verbose": -1}
-    final_model = lgb.LGBMRegressor(**params)
+    best_params = search.best_params_
+    best_cv_mae = round(-float(search.best_score_), 3)
+
+    final_model = lgb.LGBMRegressor(**best_params, random_state=42, n_jobs=-1, verbose=-1)
     final_model.fit(x_train, y_train, eval_set=[(x_test, y_test)], callbacks=[lgb.early_stopping(50, verbose=False)])
     predictions = final_model.predict(x_test)
     residuals = y_test.to_numpy() - predictions
@@ -67,7 +64,7 @@ def train(data_path: Path, model_path: Path, trials: int) -> None:
         "rmse": round(float(np.sqrt(mean_squared_error(y_test, predictions))), 3),
         "mape": round(float(np.mean(np.abs((y_test - predictions) / y_test)) * 100), 3),
         "r2": round(float(r2_score(y_test, predictions)), 4),
-        "best_optuna_mae": round(float(study.best_value), 3),
+        "best_cv_mae": best_cv_mae,
     }
     model_path.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(
@@ -76,7 +73,7 @@ def train(data_path: Path, model_path: Path, trials: int) -> None:
             "feature_columns": cols,
             "metrics": metrics,
             "residual_std": float(np.std(residuals)),
-            "best_params": study.best_params,
+            "best_params": best_params,
         },
         model_path,
     )
@@ -88,6 +85,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=Path, default=Path("../hourlyLoadData_NE_weather_with_holiday.csv"))
     parser.add_argument("--model", type=Path, default=Path("app/models/lightgbm_model.pkl"))
-    parser.add_argument("--trials", type=int, default=50)
+    parser.add_argument("--cv-splits", type=int, default=5)
     args = parser.parse_args()
-    train(args.data, args.model, args.trials)
+    train(args.data, args.model, args.cv_splits)

@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 
 import joblib
+import sqlite3
+
 import numpy as np
 import pandas as pd
 from lightgbm import LGBMRegressor
@@ -218,6 +220,20 @@ class DemandPredictor:
         return self._default_history(self._normalize_timestamp(pd.Timestamp(payload.datetime)))
 
     def _default_history(self, forecast_start: pd.Timestamp) -> list[float]:
+        # Try SQLite first
+        db_path = ROOT_DIR / "backend" / "demand.db"
+        if db_path.exists():
+            conn = sqlite3.connect(db_path)
+            cur = conn.cursor()
+            cur.execute(
+                "SELECT demand FROM demand_history WHERE datetime < ? ORDER BY datetime DESC LIMIT 336",
+                (forecast_start.strftime('%Y-%m-%d %H:%M:%S'),)
+            )
+            rows = [r[0] for r in cur.fetchall()]
+            conn.close()
+            if rows:
+                return list(reversed(rows))
+        # Fallback to CSV DataFrame if DB missing or empty
         if self.source_frame is None:
             raise ValueError("Historical demand dataset is required when lag values are not provided.")
         forecast_start = self._normalize_timestamp(forecast_start)

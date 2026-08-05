@@ -7,4 +7,3 @@ joblib==1.4.2
 pydantic==2.10.4
 python-multipart==0.0.20
 scikit-learn==1.6.0
-optuna==4.1.0

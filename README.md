@@ -9,7 +9,7 @@ Production-ready full-stack app generated from `model.ipynb` for North-Eastern R
 - LightGBM model loading with automatic bootstrap training when `lightgbm_model.pkl` is missing
 - Automatic lag and rolling feature generation from the bundled historical dataset for manual forecasts
 - Next-year monthly demand prediction endpoint and frontend section
-- Offline Optuna training script for tuned model artifacts
+- Offline Grid Search CV training script for tuned model artifacts
 - Next.js 15 App Router frontend with TypeScript, Tailwind CSS, Framer Motion, Recharts, React Hook Form, and Axios
 - CSV batch prediction, anomaly review, report download, and environment variable support
 
@@ -36,11 +36,11 @@ GET  /api/weather/current?region=guwahati
 GET  /api/weather/regions
 ```
 
-For Optuna tuning:
+For grid search tuning:
 
 ```bash
 cd backend
-python train_model.py --data ../hourlyLoadData_NE_weather_with_holiday.csv --model app/models/lightgbm_model.pkl --trials 50
+python train_model.py --data ../hourlyLoadData_NE_weather_with_holiday.csv --model app/models/lightgbm_model.pkl --cv-splits 5
 ```
 
 ## Frontend Setup
