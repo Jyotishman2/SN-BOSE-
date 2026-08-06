@@ -21,7 +21,11 @@ export default function DemandChart({ data }: { data: Array<Record<string, strin
           <XAxis dataKey="time" stroke="#64748b" tickLine={false} axisLine={false} minTickGap={16} />
           <YAxis stroke="#64748b" tickLine={false} axisLine={false} width={56} tickFormatter={(v) => `${v} MW`} />
           <Tooltip contentStyle={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8, color: "#0f172a" }} />
-          <ReferenceLine x={data[Math.max(0, data.length - 1)]?.time} stroke="#94a3b8" strokeDasharray="4 4" />
+         <ReferenceLine
+  x={data[Math.max(0, data.length - 1)]?.time ?? undefined}
+  stroke="#94a3b8"
+  strokeDasharray="4 4"
+/>
           <Area type="monotone" dataKey="historical" stroke="#0f172a" fill="url(#forecastFill)" strokeWidth={2} />
           <Line type="monotone" dataKey="historical" stroke="#0f172a" dot={false} strokeWidth={2} />
           <Line type="monotone" dataKey="forecast" stroke="#0f766e" strokeWidth={2.5} dot={false} strokeDasharray="6 5" />
