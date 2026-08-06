@@ -51,9 +51,13 @@ const generateData = () => {
   // Connect the boundary point so the line is continuous
   const currentIdx = data.findIndex((d) => d.forecast !== null);
   if (currentIdx > 0 && currentIdx < data.length) {
-      data[currentIdx - 1].forecast = data[currentIdx - 1].actual;
-      data[currentIdx - 1].confidence = [data[currentIdx - 1].actual, data[currentIdx - 1].actual];
+  const actual = data[currentIdx - 1].actual;
+
+  if (actual !== null) {
+    data[currentIdx - 1].forecast = actual;
+    data[currentIdx - 1].confidence = [actual, actual];
   }
+}
 
   return { data, boundaryTime: data[24].time };
 };
